@@ -6,7 +6,7 @@ export interface Post{
     created: moment.Moment
 }
 
-export const tody:Post ={
+export const today:Post ={
     id:'1',
     title:'Today',
     created:moment()
@@ -22,4 +22,9 @@ export const thisMonth:Post ={
     id:'3',
     title:'This Month',
     created:moment().subtract(12,'days')
+}
+export const thisYear:Post ={
+    id:'4',
+    title:'This Year',
+    created:moment().subtract(56,'days')
 }

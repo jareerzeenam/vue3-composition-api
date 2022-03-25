@@ -19,7 +19,7 @@
   class="panel-block"
   >
   <a>{{ post.title }}</a>
-  <div>{{post.created.format('Do MMM')}}</div>
+  <div>&nbsp;{{post.created.format('Do MMM YYYY')}}</div>
   </a>
 </nav>
 </template>
@@ -27,32 +27,44 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue";
 import moment from 'moment';
-import { tody, thisWeek, thisMonth} from '../mocks'
+import { today, thisWeek, thisMonth, thisYear} from '../mocks'
 
-type Period = 'Today'|'This Week'| 'This Month'
+type Period = 'Today'|'This Week'|'This Month'|'This Year'
 
 export default defineComponent({
   name: "Timeline",
 
   setup(){
-    const periods = ['Today','This Week', 'This Month']
+    const periods = ['Today','This Week', 'This Month', 'This Year']
     const currentPeriod = ref<Period>('Today')
     const posts = computed(()=>{
-      return [tody, thisWeek, thisMonth].filter(post =>{
+      return [today,thisWeek,thisMonth, thisYear].filter(post => {
+        // return post.title.match('This Month')
+        /*
+        Below Keywords are from TypeScript.js
+        isAfter
+        match
+        */
         if (currentPeriod.value === 'Today') {
           return post.created.isAfter(moment().subtract(1,'day'))
         }
+
         if (currentPeriod.value === 'This Week') {
           return post.created.isAfter(moment().subtract(1,'week'))
         }
+
         if (currentPeriod.value === 'This Month') {
           return post.created.isAfter(moment().subtract(1,'month'))
         }
-
+        
+        if (currentPeriod.value === 'This Year') {
+          return post.created.isAfter(moment().subtract(1,'year'))
+        }
+      
         return false
       })
-      })
-
+    })
+   
     const setPeriod = (period:Period)=>{
       currentPeriod.value = period
     }
