@@ -29,7 +29,7 @@ import { defineComponent, ref, computed } from "vue";
 import moment from 'moment';
 import { today, thisWeek, thisMonth, thisYear} from '../mocks'
 
-type Period = 'Today'|'This Week'|'This Month'|'This Year'
+type Period = 'Today' | 'This Week' | 'This Month' | 'This Year'
 
 export default defineComponent({
   name: "Timeline",
@@ -38,7 +38,7 @@ export default defineComponent({
     const periods = ['Today','This Week', 'This Month', 'This Year']
     const currentPeriod = ref<Period>('Today')
     const posts = computed(()=>{
-      return [today,thisWeek,thisMonth, thisYear].filter(post => {
+      return [today, thisWeek, thisMonth, thisYear].filter(post => {
         // return post.title.match('This Month') 
         if (currentPeriod.value === 'Today') {
           return post.created.isAfter(moment().subtract(1,'day'))
