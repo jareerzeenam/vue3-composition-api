@@ -39,12 +39,7 @@ export default defineComponent({
     const currentPeriod = ref<Period>('Today')
     const posts = computed(()=>{
       return [today,thisWeek,thisMonth, thisYear].filter(post => {
-        // return post.title.match('This Month')
-        /*
-        Below Keywords are from TypeScript.js
-        isAfter
-        match
-        */
+        // return post.title.match('This Month') 
         if (currentPeriod.value === 'Today') {
           return post.created.isAfter(moment().subtract(1,'day'))
         }
