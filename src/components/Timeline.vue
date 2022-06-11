@@ -5,6 +5,7 @@
     v-for="period in periods" 
     :key="period"
     :class="{'is-active':period === currentPeriod}"
+    :data-test="period"
     @click="setPeriod(period)"
     >
       {{ period }}
@@ -13,14 +14,12 @@
 
   {{ currentPeriod }}
 
-  <a 
-  v-for="post in posts"
-  :key="post.id"
-  class="panel-block"
-  >
-  <a>{{ post.title }}</a>
-  <div>&nbsp;{{post.created.format('Do MMM YYYY')}}</div>
-  </a>
+  <timeline-post 
+    v-for="post in posts"
+    :key="post.id"
+    class="panel-block"
+    :post="post"
+  />
 </nav>
 </template>
 
@@ -28,13 +27,25 @@
 import { defineComponent, ref, computed } from "vue";
 import moment from 'moment';
 import { today, thisWeek, thisMonth, thisYear} from '../mocks'
+import TimelinePost from './TimelinePost.vue'
 
 type Period = 'Today' | 'This Week' | 'This Month' | 'This Year'
+
+function delay() {
+  return new Promise(res => {
+    setTimeout(res,2000)
+  })
+}
 
 export default defineComponent({
   name: "Timeline",
 
-  setup(){
+  components:{
+    TimelinePost
+  },
+
+  async setup(){
+    await delay()
     const periods = ['Today','This Week', 'This Month', 'This Year']
     const currentPeriod = ref<Period>('Today')
     const posts = computed(()=>{
